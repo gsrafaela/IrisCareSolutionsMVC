@@ -1,0 +1,75 @@
+﻿@model List<Tutelado>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Tutelados</h1>
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["msg"]
+    </div>
+}
+
+<form class="row" asp-action="index" method="get">
+    <div class="col-4">
+        <input name="filtro" class="form-control" type="text" placeholder="Digite o nome"/>
+    </div>
+    <button class="col-2 btn btn-success">Pesquisar</button>
+</form>
+
+<a asp-action="cadastrar">Cadastrar</a>
+<table class="table table-striped">
+    <tr>
+        <th>Nome</th>
+        <th>Cpf</th>
+        <th>Data Nascimento</th>
+        <th>Tipo de Atendimento</th>
+        <th>CEP</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nome</td>
+            <td>@item.Cpf</td>
+            <td>@item.DataNascimento.ToShortDateString()</td>
+            <td>@item.ModalidadeAtendimento</td>
+            <td>@item.Endereco.Cep</td>
+            <td>
+                <a asp-action="editar" asp-route-id="@item.TuteladoId"
+                   class="btn btn-sm btn-outline-info">Editar</a>
+                <!-- Button trigger modal -->
+                <button onclick="key.value = @item.TuteladoId" type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Remover
+                </button>
+                <a asp-action="exames" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-primary">Exames</a>
+                <a asp-action="medicamentos" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-dark">Medicamentos</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente apagar o paciente?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="excluir">
+                    <input type="hidden" name="id" id="key" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger">Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,13 @@
+﻿@model Tutelado
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Atualizar o tutelado: @Model.Nome</h1>
+
+<form asp-action="editar">
+    <partial name="_Form" />
+    <input asp-for="TuteladoId" />    
+    <button class="btn btn-primary">Editar</button>
+</form>
+
