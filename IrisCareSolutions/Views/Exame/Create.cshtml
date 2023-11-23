@@ -1,0 +1,36 @@
+﻿@model Exame
+
+@{
+    ViewData["Title"] = "Novo Exame";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descricao"></label>
+        <input asp-for="Descricao" class="form-control" />
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Data"></label>
+        <input asp-for="Data" type="date" class="form-control" />
+        <span asp-validation-for="Data" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TuteladoId">Nome do Tutelado</label>
+        <select asp-for="TuteladoId" asp-items="@(new SelectList(ViewBag.Tutelados, "TuteladoId", "Nome"))" class="form-control"></select>
+        <span asp-validation-for="TuteladoId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ResultadoFile"></label>
+        <input asp-for="ResultadoFile" type="file" class="form-control" />
+        <span asp-validation-for="ResultadoFile" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>

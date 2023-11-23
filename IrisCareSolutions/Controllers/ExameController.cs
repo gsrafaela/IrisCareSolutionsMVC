@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using IrisCareSolutions.Models;
 using IrisCareSolutions.Persistencia;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IrisCareSolutions.Controllers
 {
     public class ExameController : Controller
     {
-        private ICSolutionsContext _context;
+        private readonly ICSolutionsContext _context;
 
-        //Recebe o DbContext por injeção de dependência
+        // Recebe o DbContext por injeção de dependência
         public ExameController(ICSolutionsContext context)
         {
             _context = context;
@@ -19,18 +22,34 @@ namespace IrisCareSolutions.Controllers
         // GET: Exame
         public async Task<IActionResult> Index()
         {
-            var exames = await _context.Exames.Include(e => e.Tutelado).ToListAsync();
+            var exames = await _context.Exames.ToListAsync();
             return View(exames);
+        }
+
+        // GET: Exame/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exame = await _context.Exames
+                .FirstOrDefaultAsync(m => m.ExameId == id);
+            if (exame == null)
+            {
+                return NotFound();
+            }
+
+            return View(exame);
         }
 
         // GET: Exame/Create
         public IActionResult Create()
         {
-            ViewData["TuteladoId"] = new SelectList(_context.Tutelados, "TuteladoId", "Nome");
             return View();
         }
 
-        // POST: Exame/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoFile")] Exame exame)
@@ -39,90 +58,43 @@ namespace IrisCareSolutions.Controllers
             {
                 if (exame.ResultadoFile != null && exame.ResultadoFile.Length > 0)
                 {
-                    using (var memoryStream = new MemoryStream())
+                    var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(exame.ResultadoFile.FileName)}";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        await exame.ResultadoFile.CopyToAsync(memoryStream);
-                        exame.ResultadoData = memoryStream.ToArray();
+                        await exame.ResultadoFile.CopyToAsync(fileStream);
                     }
+
+                    exame.ResultadoData = null; // Não precisamos mais dos dados no modelo
+                    exame.ResultadoFileName = fileName;
                 }
 
                 _context.Add(exame);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["TuteladoId"] = new SelectList(_context.Tutelados, "TuteladoId", "Nome", exame.TuteladoId);
             return View(exame);
         }
 
-        // GET: Exame/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Exame/Download/5
+        public IActionResult Download(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var exame = await _context.Exames.FindAsync(id);
+            var exame = _context.Exames.Find(id);
 
-            if (exame == null)
+            if (exame == null || string.IsNullOrEmpty(exame.ResultadoFileName))
             {
                 return NotFound();
             }
 
-            ViewData["TuteladoId"] = new SelectList(_context.Tutelados, "TuteladoId", "Nome", exame.TuteladoId);
-            return View(exame);
-        }
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
 
-        // POST: Exame/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoData")] Exame exame)
-        {
-            if (id != exame.ExameId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var existingExame = await _context.Exames.FindAsync(id);
-
-                    if (exame.ResultadoFile != null && exame.ResultadoFile.Length > 0)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await exame.ResultadoFile.CopyToAsync(memoryStream);
-                            existingExame.ResultadoData = memoryStream.ToArray();
-                        }
-                    }
-
-                    existingExame.Nome = exame.Nome;
-                    existingExame.Descricao = exame.Descricao;
-                    existingExame.Data = exame.Data;
-                    existingExame.TuteladoId = exame.TuteladoId;
-
-                    _context.Update(existingExame);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExameExists(exame.ExameId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["TuteladoId"] = new SelectList(_context.Tutelados, "TuteladoId", "Nome", exame.TuteladoId);
-            return View(exame);
+            return PhysicalFile(filePath, "application/octet-stream", $"{exame.Nome}_Resultado.pdf");
         }
 
         // GET: Exame/Delete/5
@@ -134,9 +106,7 @@ namespace IrisCareSolutions.Controllers
             }
 
             var exame = await _context.Exames
-                .Include(e => e.Tutelado)
                 .FirstOrDefaultAsync(m => m.ExameId == id);
-
             if (exame == null)
             {
                 return NotFound();
@@ -151,8 +121,19 @@ namespace IrisCareSolutions.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var exame = await _context.Exames.FindAsync(id);
-            _context.Exames.Remove(exame);
-            await _context.SaveChangesAsync();
+
+            if (exame != null)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                _context.Exames.Remove(exame);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

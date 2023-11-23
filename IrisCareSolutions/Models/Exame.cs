@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IrisCareSolutions.Models
@@ -19,9 +20,6 @@ namespace IrisCareSolutions.Models
 
         [Required]
         public byte[] ResultadoData { get; set; }
-
-        // Propriedade para armazenar o arquivo do resultado do exame
-        [NotMapped] // Esta propriedade não será mapeada para o banco de dados
-        public Microsoft.AspNetCore.Http.IFormFile ResultadoFile { get; set; }
+        public string ResultadoFileName { get; set; }
     }
 }

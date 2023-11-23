@@ -34,6 +34,6 @@ namespace IrisCareSolutions.Models
 
     public enum ModalidadeAtendimento
     {
-        PlanoSaude, Sus
+        Convenio, SUS
     }
 }

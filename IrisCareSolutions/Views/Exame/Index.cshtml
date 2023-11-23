@@ -1,0 +1,39 @@
+﻿@model List<Exame>
+
+@{
+    ViewData["Title"] = "Lista de Exames";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create">Novo Exame</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Data</th>
+            <th>Tutelado</th>
+            <th>Opções</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exame in Model)
+        {
+            <tr>
+                <td>@exame.Nome</td>
+                <td>@exame.Descricao</td>
+                <td>@exame.Data.ToShortDateString()</td>
+                <td>@exame.TuteladoId</td> <!-- Alterado para exibir o Id, ajuste conforme necessário -->
+                <td>
+                    <a asp-action="Details" asp-route-id="@exame.ExameId">Detalhes</a> |
+                    <a asp-action="Download" asp-route-id="@exame.ExameId">Download</a> |
+                    <a asp-action="Delete" asp-route-id="@exame.ExameId">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

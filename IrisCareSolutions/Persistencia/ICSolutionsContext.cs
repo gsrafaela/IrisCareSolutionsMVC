@@ -42,7 +42,7 @@ namespace IrisCareSolutions.Persistencia
                 .IsUnicode(false);
 
             modelBuilder.Entity<Exame>()
-                .Property(e => e.ResultadoFile)
+                .Property(e => e.ResultadoFileName)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Responsavel>()
@@ -63,5 +63,4 @@ namespace IrisCareSolutions.Persistencia
         }
 
     }
-}
 }
