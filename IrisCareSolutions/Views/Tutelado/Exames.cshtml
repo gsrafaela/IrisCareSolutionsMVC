@@ -4,7 +4,7 @@
     ViewData["Title"] = "Exames";
 }
 
-<h2>Paciente: @ViewBag.Paciente.Nome</h2>
+<h2>Tutelado: @ViewBag.Exame.Nome</h2>
 <hr />
 @if (TempData["msg"] != null)
 {
@@ -17,7 +17,7 @@
         <h3>Agendar</h3>
         <form asp-action="agendar">
     <input type="hidden" asp-for="TuteladoId" 
-                    value="@ViewBag.Paciente.PacienteId" />
+                    value="@ViewBag.Tutelado.TuteladoId" />
     <div class="mb-3"> 
         <label asp-for="Nome"></label>
         <input asp-for="Nome" class="form-control" />

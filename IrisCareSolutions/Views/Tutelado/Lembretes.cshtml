@@ -27,12 +27,12 @@
         <th>Data Validade do Lembrete</th>
         <th>Observação</th>
     </tr>
-    @foreach (var item in ViewBag.medicamentos)
+    @foreach (var item in ViewBag.lembretes)
     {
         <tr>
             <td>@item.Nome</td>
             <td>@item.Validade.ToShortDateString()</td>
-            <td>@item.Laboratorio</td>
+            <td>@item.Observacao</td>
         </tr>
     }
 </table>

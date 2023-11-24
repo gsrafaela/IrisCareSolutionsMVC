@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using IrisCareSolutions.Models;
+﻿using IrisCareSolutions.Models;
 using IrisCareSolutions.Persistencia;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IrisCareSolutions.Controllers
 {
@@ -44,29 +40,22 @@ namespace IrisCareSolutions.Controllers
             return View(exame);
         }
 
-        // GET: Exame/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoFile")] Exame exame)
+        public async Task<IActionResult> Create([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoData")] Exame exame, IFormFile ResultadoFile)
         {
             if (ModelState.IsValid)
             {
-                if (exame.ResultadoFile != null && exame.ResultadoFile.Length > 0)
+                if (ResultadoFile != null && ResultadoFile.Length > 0)
                 {
-                    var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(exame.ResultadoFile.FileName)}";
+                    var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(ResultadoFile.FileName)}";
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        await exame.ResultadoFile.CopyToAsync(fileStream);
+                        await ResultadoFile.CopyToAsync(fileStream);
                     }
 
-                    exame.ResultadoData = null; // Não precisamos mais dos dados no modelo
                     exame.ResultadoFileName = fileName;
                 }
 
@@ -94,7 +83,14 @@ namespace IrisCareSolutions.Controllers
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
 
-            return PhysicalFile(filePath, "application/octet-stream", $"{exame.Nome}_Resultado.pdf");
+            if (System.IO.File.Exists(filePath))
+            {
+                return PhysicalFile(filePath, "application/octet-stream", $"{exame.Nome}_Resultado.pdf");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // GET: Exame/Delete/5

@@ -23,9 +23,6 @@ namespace IrisCareSolutions.Models
         [Column("Ds_Modalidade"), Required, Display(Name = "Modalidade")]
         public ModalidadeAtendimento ModalidadeAtendimento { get; set; }
 
-        public Endereco Endereco { get; set; }
-        public int EnderecoId { get; set; }
-
         public IList<Exame> Exames { get; set; }
 
         public IList<TuteladoLembrete> TuteladosLembretes { get; set; }
@@ -34,6 +31,6 @@ namespace IrisCareSolutions.Models
 
     public enum ModalidadeAtendimento
     {
-        Convenio, SUS
+        Convênio, SUS
     }
 }

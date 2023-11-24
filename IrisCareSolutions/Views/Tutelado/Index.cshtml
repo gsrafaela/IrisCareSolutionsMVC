@@ -4,6 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .max-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<div class="cover">
+    <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
+</div>
+
 <h1>Tutelados</h1>
 @if (TempData["msg"] != null)
 {
@@ -26,7 +53,6 @@
         <th>Cpf</th>
         <th>Data Nascimento</th>
         <th>Tipo de Atendimento</th>
-        <th>CEP</th>
         <th></th>
     </tr>
     @foreach (var item in Model)
@@ -36,7 +62,6 @@
             <td>@item.Cpf</td>
             <td>@item.DataNascimento.ToShortDateString()</td>
             <td>@item.ModalidadeAtendimento</td>
-            <td>@item.Endereco.Cep</td>
             <td>
                 <a asp-action="editar" asp-route-id="@item.TuteladoId"
                    class="btn btn-sm btn-outline-info">Editar</a>
@@ -45,7 +70,7 @@
                     Remover
                 </button>
                 <a asp-action="exames" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-primary">Exames</a>
-                <a asp-action="medicamentos" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-dark">Medicamentos</a>
+                <a asp-action="lembretes" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-dark">Lembretes</a>
             </td>
         </tr>
     }

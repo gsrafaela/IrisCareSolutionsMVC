@@ -9,7 +9,6 @@ namespace IrisCareSolutions.Persistencia
         public DbSet<Responsavel> Responsavels { get; set; }
         public DbSet<Lembrete> Lembretes { get; set; }
         public DbSet<Exame> Exames { get; set; }
-        public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<TuteladoLembrete> TuteladosLembretes { get; set; }
 
         public ICSolutionsContext(DbContextOptions op) : base(op) { }

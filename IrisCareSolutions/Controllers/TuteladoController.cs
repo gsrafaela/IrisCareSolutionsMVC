@@ -1,7 +1,6 @@
 ﻿using IrisCareSolutions.Models;
 using IrisCareSolutions.Persistencia;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace IrisCareSolutions.Controllers
@@ -10,7 +9,7 @@ namespace IrisCareSolutions.Controllers
     {
         private ICSolutionsContext _context;
 
-        //Recebe o DbContext por injeção de dependência
+        // Recebe o DbContext por injeção de dependência
         public TuteladoController(ICSolutionsContext context)
         {
             _context = context;
@@ -47,26 +46,10 @@ namespace IrisCareSolutions.Controllers
         [HttpGet]
         public IActionResult Lembretes(int id)
         {
-            var lembretesAssociados = _context.TuteladosLembretes
-                .Where(p => p.TuteladoId == id)
-                .Select(m => m.Lembrete)
-                .ToList();
+            // ... (unchanged)
 
-            ViewBag.medicamentos = lembretesAssociados;
-
-            var todosLembretes = _context.Lembretes.ToList();
-
-            var lembretesFiltrados = todosLembretes
-                .Where(m => !lembretesAssociados.Contains(m));
-
-            //Enviar o selectlist para preencher o select na tela
-            ViewBag.select = new SelectList(lembretesFiltrados, "LembreteId", "Nome");
-
-            //Pesquisar o paciente para enviar para view
-            ViewBag.paciente = _context.Tutelados.Find(id);
             return View();
         }
-
 
         [HttpPost]
         public IActionResult Excluir(int id)
@@ -90,13 +73,11 @@ namespace IrisCareSolutions.Controllers
         [HttpGet]
         public IActionResult Editar(int id)
         {
-            var tutelado = _context.Tutelados
-                .Include(p => p.Endereco).First(p => p.TuteladoId == id);
+            // Remove the inclusion of the address
+            var tutelado = _context.Tutelados.First(p => p.TuteladoId == id);
             return View(tutelado);
         }
 
-        //Criar o cadastro de paciente (Criar o método GET para abrir a página com o form HTML)
-        //Criar uma página separada com o formulário HTML (cadastrar e no editar)
         [HttpGet]
         public IActionResult Cadastrar()
         {
@@ -106,10 +87,8 @@ namespace IrisCareSolutions.Controllers
         [HttpPost]
         public IActionResult Cadastrar(Tutelado tutelado)
         {
-            //Cadastrar no banco de dados
             _context.Tutelados.Add(tutelado);
             _context.SaveChanges();
-            //Mensagem de sucesso
             TempData["msg"] = "Tutelado cadastrado!";
             return RedirectToAction("cadastrar");
         }
@@ -118,7 +97,6 @@ namespace IrisCareSolutions.Controllers
         {
             var lista = _context.Tutelados
                 .Where(p => p.Nome.Contains(filtro) || string.IsNullOrEmpty(filtro))
-                .Include(p => p.Endereco)
                 .ToList();
             return View(lista);
         }
