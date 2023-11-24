@@ -54,9 +54,8 @@
                 <td>@exame.Nome</td>
                 <td>@exame.Descricao</td>
                 <td>@exame.Data.ToShortDateString()</td>
-                <td>@exame.TuteladoId</td> <!-- Alterado para exibir o Id, ajuste conforme necessário -->
+                <td>@exame.Tutelado?.Nome</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@exame.ExameId">Detalhes</a> |
                     <a asp-action="Download" asp-route-id="@exame.ExameId">Download</a> |
                     <a asp-action="Delete" asp-route-id="@exame.ExameId">Excluir</a>
                 </td>

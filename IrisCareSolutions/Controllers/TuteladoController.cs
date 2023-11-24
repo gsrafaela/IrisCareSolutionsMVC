@@ -1,6 +1,7 @@
 ﻿using IrisCareSolutions.Models;
 using IrisCareSolutions.Persistencia;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace IrisCareSolutions.Controllers
@@ -30,7 +31,7 @@ namespace IrisCareSolutions.Controllers
             ViewBag.exames = _context.Exames
                 .Where(e => e.TuteladoId == id).ToList();
 
-            ViewBag.paciente = _context.Tutelados.Find(id);
+            ViewBag.tutelado = _context.Tutelados.Find(id);
             return View();
         }
 
@@ -46,7 +47,22 @@ namespace IrisCareSolutions.Controllers
         [HttpGet]
         public IActionResult Lembretes(int id)
         {
-            // ... (unchanged)
+          
+            var lembretesAssociados = _context.TuteladosLembretes
+                .Where(p => p.TuteladoId == id)
+                .Select(m => m.Lembrete)
+                .ToList();
+
+            ViewBag.lembretes = lembretesAssociados;
+
+            var todosLembretes = _context.Lembretes.ToList();
+
+            var lembretesFiltrados = todosLembretes
+                .Where(m => !lembretesAssociados.Contains(m));
+
+            ViewBag.select = new SelectList(lembretesFiltrados, "LembreteoId", "Nome");
+
+            ViewBag.tutelado = _context.Tutelados.Find(id);
 
             return View();
         }

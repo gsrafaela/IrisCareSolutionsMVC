@@ -39,29 +39,36 @@ namespace IrisCareSolutions.Controllers
 
             return View(exame);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoData")] Exame exame, IFormFile ResultadoFile)
+        public async Task<IActionResult> CreateAsync([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoData")] Exame exame, IFormFile ResultadoFile)
         {
             if (ModelState.IsValid)
             {
-                if (ResultadoFile != null && ResultadoFile.Length > 0)
+                try
                 {
-                    var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(ResultadoFile.FileName)}";
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    if (ResultadoFile != null && ResultadoFile.Length > 0)
                     {
-                        await ResultadoFile.CopyToAsync(fileStream);
+                        var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(ResultadoFile.FileName)}";
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ResultadoFile.CopyToAsync(fileStream);
+                        }
+
+                        exame.ResultadoFileName = fileName;
                     }
 
-                    exame.ResultadoFileName = fileName;
+                    _context.Add(exame);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-
-                _context.Add(exame);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                catch (Exception ex)
+                {
+                    // Handle exceptions (log or display an error message)
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving the data.");
+                }
             }
             return View(exame);
         }
@@ -93,28 +100,9 @@ namespace IrisCareSolutions.Controllers
             }
         }
 
-        // GET: Exame/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var exame = await _context.Exames
-                .FirstOrDefaultAsync(m => m.ExameId == id);
-            if (exame == null)
-            {
-                return NotFound();
-            }
-
-            return View(exame);
-        }
-
-        // POST: Exame/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmedAsync(int id)
         {
             var exame = await _context.Exames.FindAsync(id);
 
@@ -123,7 +111,15 @@ namespace IrisCareSolutions.Controllers
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
                 if (System.IO.File.Exists(filePath))
                 {
-                    System.IO.File.Delete(filePath);
+                    try
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions (log or display an error message)
+                        ModelState.AddModelError(string.Empty, "An error occurred while deleting the file.");
+                    }
                 }
 
                 _context.Exames.Remove(exame);
@@ -131,11 +127,6 @@ namespace IrisCareSolutions.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ExameExists(int id)
-        {
-            return _context.Exames.Any(e => e.ExameId == id);
         }
     }
 }
