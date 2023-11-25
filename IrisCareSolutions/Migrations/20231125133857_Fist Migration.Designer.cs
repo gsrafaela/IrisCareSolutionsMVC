@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IrisCareSolutions.Migrations
 {
     [DbContext(typeof(ICSolutionsContext))]
-    [Migration("20231124032945_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20231125133857_Fist Migration")]
+    partial class FistMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,12 +46,12 @@ namespace IrisCareSolutions.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<byte[]>("ResultadoData")
+                    b.Property<string>("ResultadoFileName")
                         .IsRequired()
                         .IsUnicode(false)
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varchar(max)");
 
-                    b.Property<string>("ResultadoFileName")
+                    b.Property<string>("ResultadoPath")
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");

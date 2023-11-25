@@ -16,15 +16,12 @@ namespace IrisCareSolutions.Models
         [Required]
         public DateTime Data { get; set; }
 
-        //N:1
         public Tutelado Tutelado { get; set; }
         public int TuteladoId { get; set; }
 
-        public string ResultadoPath { get; set; } // This property will store the path to the uploaded PDF file
+        public string ResultadoPath { get; set; } // Esta propriedade armazenará o caminho para o arquivo PDF enviado
 
-        // Property to hold the uploaded PDF file
-        [NotMapped] // Exclude this property from the database schema
-        public IFormFile ResultadoFile { get; set; }
+        public string ResultadoFileName { get; set; } // Esta propriedade armazenará o nome do arquivo PDF enviado
 
     }
 }

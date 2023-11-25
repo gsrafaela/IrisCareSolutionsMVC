@@ -43,12 +43,12 @@ namespace IrisCareSolutions.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<byte[]>("ResultadoData")
+                    b.Property<string>("ResultadoFileName")
                         .IsRequired()
                         .IsUnicode(false)
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varchar(max)");
 
-                    b.Property<string>("ResultadoFileName")
+                    b.Property<string>("ResultadoPath")
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");

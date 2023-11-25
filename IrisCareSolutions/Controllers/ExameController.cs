@@ -32,24 +32,18 @@ namespace IrisCareSolutions.Controllers
             return View();
         }
 
-        // POST: Exame/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ExameId, Nome, Descricao, Data, TuteladoId, ResultadoFile")] Exame exame)
+        public IActionResult Create([Bind("ExameId, Nome, Descricao, Data, TuteladoId, ResultadoFileName")] Exame exame)
         {
             if (ModelState.IsValid)
             {
                 // Handle file upload
-                if (exame.ResultadoFile != null && exame.ResultadoFile.Length > 0)
+                if (!string.IsNullOrEmpty(exame.ResultadoFileName))
                 {
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + exame.ResultadoFile.FileName;
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + exame.ResultadoFileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        exame.ResultadoFile.CopyTo(stream);
-                    }
 
                     // Save the file path in the database
                     exame.ResultadoPath = "/uploads/" + uniqueFileName;
@@ -58,11 +52,11 @@ namespace IrisCareSolutions.Controllers
                 _context.Exames.Add(exame);
                 _context.SaveChanges();
 
-                TempData["msg"] = "Exame agendado!";
+                TempData["msg"] = "Pedido Enviado!";
                 return RedirectToAction("Exames", "Tutelado", new { id = exame.TuteladoId });
             }
 
-            // Se o modelo não for válido, retorne para a view com os erros
+            // If the model is not valid, return to the view with errors
             return View(exame);
         }
 
