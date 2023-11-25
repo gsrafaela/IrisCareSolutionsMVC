@@ -3,6 +3,24 @@
     Versão simplificada para desktop do aplicativo mobile para prevenção e controle do Retinoblastoma por meio da análise de imagem, 
     controle periodico e encaminhamento para Secretaria Municipal e GRAACC.
 
+# Instruções para Migrações de Banco de Dados
+
+Para utilizar o banco basta configurar e aplicar as migrações no banco de dados deste projeto, siga os passos abaixo:
+
+Abra o Console do Gerenciador de Pacotes (Package Manager Console) no Visual Studio. 
+<br>
+Utilize o comando Add-Migration seguido pelo nome descritivo da sua alteração:
+
+```bash
+Add-Migration "NomeDaMigracao"
+```
+Substitua "NomeDaMigracao" por um nome que descreva claramente a natureza da sua migração.
+<br>
+Após a criação da migração, aplique as alterações no banco de dados usando o comando Update-Database:
+
+```bash
+Update-Database
+```
 
 # Desenvolvedores:
 
