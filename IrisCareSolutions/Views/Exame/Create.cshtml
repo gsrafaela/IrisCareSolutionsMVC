@@ -25,17 +25,29 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .pedidoMedico {
+        color: #89ffdb
+    }
+
+    .listaPedidoMedico {
+        color: #ffffff;
+    }
+
+    .corBotao {
+        background-color: #89ffdb;
+    }
 </style>
 
 <div class="cover">
     <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
 </div>
 
-<h1>Exames</h1>
+<h1 class="pedidoMedico">Pedido Médico</h1>
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 listaPedidoMedico">
         <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -66,15 +78,13 @@
             <input type="hidden" asp-for="TuteladoId" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn corBotao mt-3" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

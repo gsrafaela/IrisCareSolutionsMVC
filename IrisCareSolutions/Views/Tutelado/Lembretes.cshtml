@@ -22,6 +22,14 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .tituloLembrete {
+        color: #89ffdb !important;
+    }
+
+    .lembreteLista {
+        color : #ffffff !important;
+    }
 </style>
 
 <div class="cover">
@@ -29,7 +37,7 @@
 </div>
 @if (ViewBag.tutelado != null)
 {
-    <h1>@ViewBag.tutelado.Nome</h1>
+    <h1 class="tituloLembrete">@ViewBag.tutelado.Nome</h1>
     <hr />
     @if (TempData["msg"] != null)
     {
@@ -48,14 +56,14 @@
     </form>
 
     <table class="table">
-        <tr>
+        <tr class="lembreteLista">
             <th>Nome</th>
-            <th>Data Validade do Lembrete</th>
+            <th>Validade do Lembrete</th>
             <th>Observação</th>
         </tr>
         @foreach (var item in ViewBag.lembretes)
         {
-            <tr>
+            <tr class="lembreteLista">
                 <td>@item.Nome</td>
                 <td>@item.Validade.ToShortDateString()</td>
                 <td>@item.Observacao</td>
