@@ -33,6 +33,14 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
+        justify-content: center; /* Adicione essa linha para centralizar as colunas no grid */
+    }
+
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Adicione essa linha para centralizar os itens na coluna */
+        text-align: center;
     }
 
     .titulo-1 {
@@ -49,11 +57,11 @@
         border-radius: 10px;
         padding: 10px;
         width: 100%;
+        background-color: #89ffdb2e;
     }
 
     .reflexoBrancoTexto {
         color: #ffffff;
-        background-color: #89ffdb2e;
         text-align: center;
     }
 
@@ -105,11 +113,11 @@
 
     <!-- Sessão de Texto 2 -->
     <div class="grid-container">
-        <div class="row mt-4 reflexoBranco">
+        <div class="grid-item mt-4 reflexoBranco">
             <div class="reflexoBrancoImgContainer">
                 <img class="reflexoBrancoImg" src="~/assets/kid_eye.png" />
             </div>
-            <div class="col reflexoBrancoTexto">
+            <div class="reflexoBrancoTexto">
                 <h2> Reflexo branco, “Olho de gato” </h2>
                 <p>
                     Sabe quando a gente tira uma foto com flash e sai com as pupilas vermelhas? Esse reflexo vermelho é normalmente associado a um olho normal e saudável. Porém, em pacientes com retinoblastoma, é muito comum que o reflexo volte branco ou amarelado, o que os médicos chamam de LEUCOCORIA, o “reflexo pupilar branco”. <br />
@@ -119,11 +127,11 @@
         </div>
 
         <!-- Sessão de Texto 3 -->
-        <div class="row-3 mt-4 reflexoBranco">
+        <div class="grid-item mt-4 reflexoBranco">
             <div class="reflexoBrancoImgContainer">
                 <img class="reflexoBrancoImg" src="~/assets/kid_eye_2.png" />
             </div>
-            <div class="col reflexoBrancoTexto">
+            <div class="reflexoBrancoTexto">
                 <h2>Estrabismo</h2>
                 <p>
                     Popularmente dizemos que a criança está vesguinha. Isso é o estrabismo. É uma condição na qual os olhos não parecem olhar na mesma direção. Existem várias causas para o estrabismo e ele está associado a vários problemas oculares. Ele também pode ser um indicativo de RETINOBLASTOMA
@@ -132,11 +140,11 @@
         </div>
 
         <!-- Sessão de Texto 4 -->
-        <div class="row-2 mt-4 reflexoBranco">
+        <div class="grid-item mt-4 reflexoBranco">
             <div class="reflexoBrancoImgContainer">
                 <img class="reflexoBrancoImg" src="~/assets/kid_eye_3.png" />
             </div>
-            <div class="col reflexoBrancoTexto">
+            <div class="reflexoBrancoTexto">
                 <h2>Outros sinais e sintomas menos comuns</h2>
                 <ul>
                     <li>Diminuição de visão </li>

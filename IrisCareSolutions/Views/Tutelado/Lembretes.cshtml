@@ -38,13 +38,13 @@
         </div>
     }
     <form class="row" asp-action="adicionar">
-        <div class="col-4">
+        <div class="col-12 col-md-4"> <!-- Ajuste aqui -->
             <input type="hidden" name="TuteladoId" value="@ViewBag.tutelado.TuteladoId" />
             <select name="LembreteId" class="form-select" asp-items="@ViewBag.select">
                 <option>Selecione</option>
             </select>
         </div>
-        <button class="btn btn-success col-2">Adicionar</button>
+        <button class="btn btn-success col-12 col-md-2">Adicionar</button> <!-- Ajuste aqui -->
     </form>
 
     <table class="table">
