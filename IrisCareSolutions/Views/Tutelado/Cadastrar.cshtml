@@ -23,13 +23,19 @@
         height: 100%;
         object-fit: cover;
     }
-</style>
+
+    .tituloNovoTutelado {
+    color: #89ffdb;
+
+    }
+    
+    </style>
 
 <div class="cover">
     <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
 </div>
 
-<h1>Cadastrar</h1>
+<h1 class="tituloNovoTutelado">Novo Tutelado</h1>
 
 @if (TempData["msg"] != null)
 {
@@ -43,7 +49,7 @@
     <partial name="_Form" />
 
     <div class="mb-3">
-        <button class="btn btn-outline-primary">Cadastrar</button>
+        <button class="btn btn-outline-light">Cadastrar</button>
     </div>
 
 </form>

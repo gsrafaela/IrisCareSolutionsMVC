@@ -1,7 +1,12 @@
 ﻿using IrisCareSolutions.Models;
 using IrisCareSolutions.Persistencia;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace IrisCareSolutions.Controllers
 {
@@ -19,9 +24,10 @@ namespace IrisCareSolutions.Controllers
         // GET: Exames
         public IActionResult Index(int id)
         {
-            //Enviar a lista de exames do tutelado para a view
-            ViewBag.exames = _context.Exames
-                .Where(e => e.TuteladoId == id).ToList();
+            // Enviar a lista de exames do tutelado para a view
+            ViewBag.Exames = _context.Exames
+                .Where(e => e.TuteladoId == id)
+                .ToList();
 
             return View();
         }
@@ -34,16 +40,21 @@ namespace IrisCareSolutions.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ExameId, Nome, Descricao, Data, TuteladoId, ResultadoFileName")] Exame exame)
+        public IActionResult Create([Bind("ExameId, Nome, Descricao, Data, TuteladoId, ResultadoFileName")] Exame exame, IFormFile resultadoFile)
         {
             if (ModelState.IsValid)
             {
                 // Handle file upload
-                if (!string.IsNullOrEmpty(exame.ResultadoFileName))
+                if (resultadoFile != null && resultadoFile.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + exame.ResultadoFileName;
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + resultadoFile.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        resultadoFile.CopyTo(stream);
+                    }
 
                     // Save the file path in the database
                     exame.ResultadoPath = "/uploads/" + uniqueFileName;
@@ -53,13 +64,12 @@ namespace IrisCareSolutions.Controllers
                 _context.SaveChanges();
 
                 TempData["msg"] = "Pedido Enviado!";
-                return RedirectToAction("Exames", "Tutelado", new { id = exame.TuteladoId });
+                return RedirectToAction("Index", new { id = exame.TuteladoId });
             }
 
             // If the model is not valid, return to the view with errors
             return View(exame);
         }
-
 
         // GET: Exames/Edit/5
         public IActionResult Edit(int? id)
@@ -88,7 +98,7 @@ namespace IrisCareSolutions.Controllers
             {
                 _context.Entry(exame).State = EntityState.Modified;
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = exame.TuteladoId });
             }
 
             return View(exame);

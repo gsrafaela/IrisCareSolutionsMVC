@@ -1,21 +1,24 @@
 ﻿@model Tutelado
 
+<style>
 
+
+</style>
 
 <div class="mb-3">
-    <label asp-for="Nome"></label>
+    <label asp-for="Nome">Nome Completo do Tutelado</label>
     <input asp-for="Nome" class="form-control" />
 </div>
 <div class="mb-3">
-    <label asp-for="DataNascimento"></label>
+    <label asp-for="DataNascimento">Data de Nascimento</label>
     <input asp-for="DataNascimento" class="form-control" />
 </div>
 <div class="mb-3">
-    <label asp-for="Cpf"></label>
+    <label asp-for="Cpf">CPF</label>
     <input asp-for="Cpf" class="form-control" />
 </div>
 <div class="mb-3">
-    <label asp-for="ModalidadeAtendimento"></label>
+    <label asp-for="ModalidadeAtendimento">Modalidade</label>
     <select asp-for="ModalidadeAtendimento" class="form-select" 
         asp-items="@Html.GetEnumSelectList<ModalidadeAtendimento>()">
             <option>Selecione</option>

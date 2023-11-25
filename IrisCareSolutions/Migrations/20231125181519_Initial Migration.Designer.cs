@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IrisCareSolutions.Migrations
 {
     [DbContext(typeof(ICSolutionsContext))]
-    [Migration("20231125133857_Fist Migration")]
-    partial class FistMigration
+    [Migration("20231125181519_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

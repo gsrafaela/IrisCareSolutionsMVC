@@ -67,13 +67,13 @@
             <td>@item.ModalidadeAtendimento</td>
             <td>
                 <a asp-action="editar" asp-route-id="@item.TuteladoId"
-                   class="btn btn-sm btn-outline-info">Editar</a>
+                   class="btn btn-sm btn-outline-light">Editar</a>
                 <!-- Button trigger modal -->
-                <button onclick="key.value = @item.TuteladoId" type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button onclick="key.value = @item.TuteladoId" type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Remover
                 </button>
-                <a asp-action="exames" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-primary">Exames</a>
-                <a asp-action="lembretes" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-dark">Lembretes</a>
+                <a asp-action="exames" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-light">Exames</a>
+                <a asp-action="lembretes" asp-route-id="@item.TuteladoId" class="btn btn-sm btn-outline-light">Lembretes</a>
             </td>
         </tr>
     }

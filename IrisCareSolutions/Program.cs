@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar serviços ao contêiner.
+builder.Configuration.AddJsonFile("appsettings.json", optional: false);
+builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = builder.Configuration.GetConnectionString("conexao");
+
+builder.Services.AddDbContext<ICSolutionsContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+
 builder.Services.AddControllersWithViews();
-
-// Adicionar injeção de dependência para IWebHostEnvironment
-builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
-
-// Recuperar a string de conexão do appsettings.json
-var conexao = builder.Configuration.GetConnectionString("conexao");
-
-// Configurar a injeção de dependência do Contexto, utilizando também a string de conexão
-builder.Services.AddDbContext<ICSolutionsContext>(options => options.UseSqlServer(conexao));
 
 var app = builder.Build();
 
