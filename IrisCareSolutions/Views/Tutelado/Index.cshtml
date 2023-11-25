@@ -25,13 +25,17 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .tituloTutelados, .tabelaCor {
+        color: #89ffdb !important;
+    }
 </style>
 
 <div class="cover">
     <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
 </div>
 
-<h1>Tutelados</h1>
+<h1 class="tituloTutelados">Tutelados</h1>
 @if (TempData["msg"] != null)
 {
     <div class="alert alert-success">
@@ -46,18 +50,17 @@
     <button class="col-2 btn btn-success">Pesquisar</button>
 </form>
 
-<a asp-action="cadastrar">Cadastrar</a>
 <table class="table table-striped">
-    <tr>
+    <tr class="tabelaCor">
         <th>Nome</th>
-        <th>Cpf</th>
+        <th>CPF</th>
         <th>Data Nascimento</th>
         <th>Tipo de Atendimento</th>
         <th></th>
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="tabelaCor">
             <td>@item.Nome</td>
             <td>@item.Cpf</td>
             <td>@item.DataNascimento.ToShortDateString()</td>
@@ -85,7 +88,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Deseja realmente apagar o paciente?
+                Deseja realmente apagar o tutelado?
             </div>
             <div class="modal-footer">
                 <form asp-action="excluir">
