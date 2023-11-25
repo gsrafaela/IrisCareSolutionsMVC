@@ -25,13 +25,21 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .tituloExame {
+       color: #89ffdb !important;
+    }
+
+    .listaExame {
+        color: #ffffff !important;
+    }
 </style>
 
 <div class="cover">
     <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
 </div>
 
-<h2>Tutelado: @ViewBag.Tutelado.Nome</h2>
+<h2 class="listaExame">Tutelado: @ViewBag.Tutelado.Nome</h2>
 <hr />
 @if (TempData["msg"] != null)
 {
@@ -40,20 +48,20 @@
     </div>
 }
 <div class="row">
-    <div class="col-6">
-        <h3>Agendar</h3>
+    <div class="col-6 listaExame">
+        <h3 class="tituloExame">Agendar</h3>
         <form asp-action="agendar">
     <input type="hidden" asp-for="TuteladoId" 
                     value="@ViewBag.Tutelado.TuteladoId" />
-    <div class="mb-3"> 
-        <label asp-for="Nome"></label>
+            <div class="mb-3 listaExame">
+                <label asp-for="Nome"></label>
         <input asp-for="Nome" class="form-control" />
     </div>
-    <div class="mb-3">
+            <div class="mb-3 listaExame">
         <label asp-for="Descricao"></label>
         <textarea asp-for="Descricao" class="form-control"></textarea>
     </div>
-    <div class="mb-3">
+            <div class="mb-3 listaExame">
         <label asp-for="Data"></label>
         <input asp-for="Data" class="form-control" />
     </div>
@@ -61,9 +69,9 @@
 </form>
     </div>
     <div class="col-6">
-        <h3>Exames</h3>
+        <h3 class="tituloExame">Exames</h3>
         <table class="table">
-            <tr>
+            <tr class="listaExame">
                 <th>Nome</th>
                 <th>Descrição</th>
                 <th>Data</th>
