@@ -1,7 +1,32 @@
 ﻿@{
     ViewData["Title"] = "Lembretes";
 }
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
+    .cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .max-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<div class="cover">
+    <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
+</div>
 @if (ViewBag.tutelado != null)
 {
     <h1>@ViewBag.tutelado.Nome</h1>
