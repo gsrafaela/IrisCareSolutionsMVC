@@ -22,6 +22,85 @@ namespace IrisCareSolutions.Controllers
             return View(exames);
         }
 
+        // GET: Exame/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Exame/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Nome, Descricao, Data, ResultadoFile")] Exame exame, IFormFile ResultadoFile)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ResultadoFile != null && ResultadoFile.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        ResultadoFile.CopyTo(ms);
+                        exame.ResultadoData = ms.ToArray();
+                        exame.ResultadoFileName = ResultadoFile.FileName;
+                    }
+                }
+
+                _context.Add(exame);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(exame);
+        }
+
+        // GET: Exame/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exame = await _context.Exames.FindAsync(id);
+            if (exame == null)
+            {
+                return NotFound();
+            }
+            return View(exame);
+        }
+
+        // POST: Exame/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ExameId,Nome,Descricao,Data,ResultadoData,ResultadoFileName")] Exame exame)
+        {
+            if (id != exame.ExameId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(exame);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ExameExists(exame.ExameId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(exame);
+        }
+
         // GET: Exame/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -30,8 +109,8 @@ namespace IrisCareSolutions.Controllers
                 return NotFound();
             }
 
-            var exame = await _context.Exames
-                .FirstOrDefaultAsync(m => m.ExameId == id);
+            var exame = await _context.Exames.FirstOrDefaultAsync(m => m.ExameId == id);
+
             if (exame == null)
             {
                 return NotFound();
@@ -39,94 +118,39 @@ namespace IrisCareSolutions.Controllers
 
             return View(exame);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync([Bind("ExameId,Nome,Descricao,Data,TuteladoId,ResultadoData")] Exame exame, IFormFile ResultadoFile)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (ResultadoFile != null && ResultadoFile.Length > 0)
-                    {
-                        var fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(ResultadoFile.FileName)}";
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
 
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await ResultadoFile.CopyToAsync(fileStream);
-                        }
-
-                        exame.ResultadoFileName = fileName;
-                    }
-
-                    _context.Add(exame);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions (log or display an error message)
-                    ModelState.AddModelError(string.Empty, "An error occurred while saving the data.");
-                }
-            }
-            return View(exame);
-        }
-
-        // GET: Exame/Download/5
-        public IActionResult Download(int? id)
+        // GET: Exame/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var exame = _context.Exames.Find(id);
+            var exame = await _context.Exames.FirstOrDefaultAsync(m => m.ExameId == id);
 
-            if (exame == null || string.IsNullOrEmpty(exame.ResultadoFileName))
+            if (exame == null)
             {
                 return NotFound();
             }
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                return PhysicalFile(filePath, "application/octet-stream", $"{exame.Nome}_Resultado.pdf");
-            }
-            else
-            {
-                return NotFound();
-            }
+            return View(exame);
         }
 
+        // POST: Exame/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmedAsync(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var exame = await _context.Exames.FindAsync(id);
-
-            if (exame != null)
-            {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", exame.ResultadoFileName);
-                if (System.IO.File.Exists(filePath))
-                {
-                    try
-                    {
-                        System.IO.File.Delete(filePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle exceptions (log or display an error message)
-                        ModelState.AddModelError(string.Empty, "An error occurred while deleting the file.");
-                    }
-                }
-
-                _context.Exames.Remove(exame);
-                await _context.SaveChangesAsync();
-            }
-
+            _context.Exames.Remove(exame);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool ExameExists(int id)
+        {
+            return _context.Exames.Any(e => e.ExameId == id);
         }
     }
 }

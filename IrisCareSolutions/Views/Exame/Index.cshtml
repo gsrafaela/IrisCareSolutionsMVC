@@ -1,63 +1,40 @@
-﻿@model List<Exame>
+﻿@model List<IrisCareSolutions.Models.Exame>
 
-@{
-    ViewData["Title"] = "Lista de Exames";
-}
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    .cover {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-    }
-
-    .max-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-</style>
-
-<div class="cover">
-    <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
-</div>
-
-<h2>@ViewData["Title"]</h2>
-
-<p>
-    <a asp-action="Create">Novo Exame</a>
-</p>
+<h2>Exames</h2>
 
 <table class="table">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Nome</th>
             <th>Descrição</th>
             <th>Data</th>
-            <th>Tutelado</th>
-            <th>Opções</th>
+            <th>Resultado</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var exame in Model)
         {
             <tr>
+                <td>@exame.ExameId</td>
                 <td>@exame.Nome</td>
                 <td>@exame.Descricao</td>
                 <td>@exame.Data.ToShortDateString()</td>
-                <td>@exame.Tutelado?.Nome</td>
                 <td>
-                    <a asp-action="Download" asp-route-id="@exame.ExameId">Download</a> |
-                    <a asp-action="Delete" asp-route-id="@exame.ExameId">Excluir</a>
+                    @if (!string.IsNullOrEmpty(exame.ResultadoFileName))
+                    {
+                        <a asp-action="Download" asp-route-id="@exame.ExameId">@exame.ResultadoFileName</a>
+                    }
+                    else
+                    {
+                        <span>No file</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@exame.ExameId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@exame.ExameId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@exame.ExameId">Delete</a>
                 </td>
             </tr>
         }
