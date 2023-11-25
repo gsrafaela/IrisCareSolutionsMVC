@@ -8,21 +8,25 @@ namespace IrisCareSolutions.Controllers
     public class ExameController : Controller
     {
         private readonly ICSolutionsContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        // Recebe o DbContext por injeção de dependência
-        public ExameController(ICSolutionsContext context)
+        public ExameController(ICSolutionsContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: Exame
-        public async Task<IActionResult> Index()
+        // GET: Exames
+        public IActionResult Index(int id)
         {
-            var exames = await _context.Exames.ToListAsync();
-            return View(exames);
+            //Enviar a lista de exames do tutelado para a view
+            ViewBag.exames = _context.Exames
+                .Where(e => e.TuteladoId == id).ToList();
+
+            return View();
         }
 
-        // GET: Exame/Create
+        // GET: Exames/Create
         public IActionResult Create()
         {
             return View();
@@ -31,85 +35,80 @@ namespace IrisCareSolutions.Controllers
         // POST: Exame/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome, Descricao, Data, ResultadoFile")] Exame exame, IFormFile ResultadoFile)
+        public IActionResult Create([Bind("ExameId, Nome, Descricao, Data, TuteladoId, ResultadoFile")] Exame exame)
         {
             if (ModelState.IsValid)
             {
-                if (ResultadoFile != null && ResultadoFile.Length > 0)
+                // Handle file upload
+                if (exame.ResultadoFile != null && exame.ResultadoFile.Length > 0)
                 {
-                    using (var ms = new MemoryStream())
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + exame.ResultadoFile.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        ResultadoFile.CopyTo(ms);
-                        exame.ResultadoData = ms.ToArray();
-                        exame.ResultadoFileName = ResultadoFile.FileName;
+                        exame.ResultadoFile.CopyTo(stream);
                     }
+
+                    // Save the file path in the database
+                    exame.ResultadoPath = "/uploads/" + uniqueFileName;
                 }
 
-                _context.Add(exame);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Exames.Add(exame);
+                _context.SaveChanges();
+
+                TempData["msg"] = "Exame agendado!";
+                return RedirectToAction("Exames", "Tutelado", new { id = exame.TuteladoId });
             }
+
+            // Se o modelo não for válido, retorne para a view com os erros
             return View(exame);
         }
 
-        // GET: Exame/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+        // GET: Exames/Edit/5
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var exame = await _context.Exames.FindAsync(id);
+            var exame = _context.Exames.Find(id);
+
             if (exame == null)
             {
                 return NotFound();
             }
+
             return View(exame);
         }
 
-        // POST: Exame/Edit/5
+        // POST: Exames/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExameId,Nome,Descricao,Data,ResultadoData,ResultadoFileName")] Exame exame)
+        public IActionResult Edit([Bind("ExameId, Nome, Descricao, Data, TuteladoId")] Exame exame)
         {
-            if (id != exame.ExameId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(exame);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExameExists(exame.ExameId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Entry(exame).State = EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
+
             return View(exame);
         }
 
-        // GET: Exame/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Exames/Delete/5
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var exame = await _context.Exames.FirstOrDefaultAsync(m => m.ExameId == id);
+            var exame = _context.Exames.Find(id);
 
             if (exame == null)
             {
@@ -117,40 +116,6 @@ namespace IrisCareSolutions.Controllers
             }
 
             return View(exame);
-        }
-
-        // GET: Exame/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var exame = await _context.Exames.FirstOrDefaultAsync(m => m.ExameId == id);
-
-            if (exame == null)
-            {
-                return NotFound();
-            }
-
-            return View(exame);
-        }
-
-        // POST: Exame/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var exame = await _context.Exames.FindAsync(id);
-            _context.Exames.Remove(exame);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ExameExists(int id)
-        {
-            return _context.Exames.Any(e => e.ExameId == id);
         }
     }
 }

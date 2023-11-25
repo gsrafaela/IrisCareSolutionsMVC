@@ -37,11 +37,11 @@ namespace IrisCareSolutions.Persistencia
                 .IsUnicode(false);
 
             modelBuilder.Entity<Exame>()
-                .Property(e => e.ResultadoData)
+                .Property(e => e.ResultadoPath)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Exame>()
-                .Property(e => e.ResultadoFileName)
+                .Property(e => e.ResultadoFile)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Responsavel>()

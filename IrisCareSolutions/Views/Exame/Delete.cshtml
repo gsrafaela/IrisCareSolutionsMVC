@@ -1,4 +1,8 @@
-﻿@model IrisCareSolutions.Models.Exame
+﻿@model Exame
+
+@{
+    ViewData["Title"] = "Delete";
+}
 
 <h2>Delete</h2>
 
@@ -13,29 +17,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nome)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Data)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Data)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ResultadoFileName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ResultadoFileName)
-        </dd>
+        <!-- Add other properties as needed -->
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="ExameId" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index">Back to List</a>
+        <div class="form-group">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
     </form>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>

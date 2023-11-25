@@ -1,63 +1,56 @@
-﻿@model Exame
+﻿@model IrisCareSolutions.Models.Exame
 
 @{
-    ViewData["Title"] = "Novo Exame";
+    ViewData["Title"] = "Create";
 }
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
+<h1>Exames</h1>
 
-    .cover {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-    }
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    .max-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-</style>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label">Exame e CRM do Médico</label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
 
-<div class="cover">
-    <img class="max-img" src="~/assets/Background.png" alt="Imagem de background" />
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label">Motivo do Exame</label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Data" class="control-label">Data e Hora do Pedido</label>
+                <input asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ResultadoFile" class="control-label">Pedido Médico</label>
+                <input asp-for="ResultadoFile" type="file" class="form-control" />
+                <span asp-validation-for="ResultadoFile" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="TuteladoId" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 
-<h2>@ViewData["Title"]</h2>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Nome">Nome</label>
-        <input asp-for="Nome" class="form-control" />
-        <span asp-validation-for="Nome" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Descricao">Descrição</label>
-        <input asp-for="Descricao" class="form-control" />
-        <span asp-validation-for="Descricao" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Data">Data</label>
-        <input asp-for="Data" type="date" class="form-control" data-val-date="A data deve estar no formato AAAA-MM-DD" />
-        <span asp-validation-for="Data" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="TuteladoId">Nome do Tutelado</label>
-        <select asp-for="TuteladoId" asp-items="@(new SelectList(ViewBag.Tutelados, "TuteladoId", "Nome"))" class="form-control"></select>
-        <span asp-validation-for="TuteladoId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ResultadoFileName">Documento</label>
-        <input asp-for="ResultadoFileName" type="file" class="form-control" />
-        <span asp-validation-for="ResultadoFileName" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Salvar</button>
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

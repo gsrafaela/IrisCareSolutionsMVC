@@ -3,10 +3,13 @@
 }
 
 <style>
+
     body {
+
         margin: 0;
         padding: 0;
         overflow: hidden;
+        font-family: 'Poppins', sans-serif;
     }
 
     .cover {
@@ -23,7 +26,53 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .globalSolution{
+        color: #ffffff;
+        
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+
+    }
+
+    .titulo-1 {
+        text-align: center;
+        color: #89ffdb;
+    }
+
+    .reflexoBrancoImg {
+        width: 100%;
+    }
+
+    .reflexoBranco {
+        border: 3px solid #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%;
+
+        
+    }
+
+    .reflexoBrancoTexto {
+        color: #ffffff;
+        background-color: #89ffdb2e;
+        text-align: center;
+    }
+
+    .reflexoBrancoImgContainer{
+        padding: 0;
+    }
+
+
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -35,19 +84,64 @@
 
 <div class="container mt-5">
     <!-- Sessão de Texto 1 -->
-    <div class="row">
+    <div class="row globalSolution">
         <div class="col">
-            <h2>Sessão 1</h2>
-            <p>Texto da sessão 1.</p>
+            <h2 class="titulo-1">Global Solutions</h2>
+            <p>
+                Versão simplificada para desktop do aplicativo mobile para prevenção e controle do Retinoblastoma por meio da análise de imagem,
+                controle periodico e encaminhamento para Secretaria Municipal e GRAACC.
+                </br>
+                O retinoblastoma é um câncer que acomete crianças pequenas, é mais comum em bebês e aproximadamente 90% dos casos são descobertos abaixo dos 5 anos. É um tumor maligno que se desenvolve na retina, uma parte interna dos olhos. De acordo com o GRAACC, a doença pode se apresentar em um olho (60% dos casos, o chamado retinoblastoma unilateral) ou nos 2 olhos (40% dos casos, retinoblastoma bilateral).ue ocorrem no primeiro ano de vida.
+            </p>
         </div>
     </div>
 
     <!-- Sessão de Texto 2 -->
-    <div class="row mt-4">
-        <div class="col">
-            <h2>Sessão 2</h2>
-            <p>Texto da sessão 2.</p>
+    <div class="grid-container">
+    <div class="row mt-4 reflexoBranco">
+        <div class="reflexoBrancoImgContainer" >
+            <img class="reflexoBrancoImg" src="~/assets/kid_eye.png" />
         </div>
+        <div class="col reflexoBrancoTexto">
+            <h2> Reflexo branco, “Olho de gato” </h2>
+            <p>
+                Sabe quando a gente tira uma foto com flash e sai com as pupilas vermelhas? Esse reflexo vermelho é
+                normalmente associado a um olho normal e saudável. Porém, em pacientes com retinoblastoma, é muito comum
+                que o reflexo volte branco ou amarelado, o que os médicos chamam de LEUCOCORIA, o “reflexo pupilar
+                branco”.
+                <br>
+                <br>
+
+            </p>
+        </div>
+    </div>
+
+    <!-- Sessão de Texto 3 -->
+    <div class="row-3 mt-4">
+        <div class="col reflexoBrancoTexto">
+            <h2>Estrabismo</h2>
+            <p>
+                Popularmente dizemos que a criança está vesguinha. Isso é o estrabismo. É uma condição na qual os olhos não parecem olhar na mesma direção.
+
+                Existem várias causas para o estrabismo e ele está associado a vários problemas oculares. Ele também pode ser um indicativo de RETINOBLASTOMA
+            </p>
+        </div>
+    </div>
+
+    <!-- Sessão de Texto 4 -->
+    <div class="row-2 mt-4">
+        <div class="col reflexoBrancoTexto">
+            <h2>Outros sinais e sintomas menos comuns</h2>
+            <ul>
+                <li>Diminuição de visão </li>
+                <li>Movimentos irregulares dos olhos</li>
+                <li>Dor nos olhos</li>
+                <li>Vermelhidão da parte branca dos olhos</li>
+                <li>Cor diferente de cada íris</li>
+
+            </ul>
+        </div>
+    </div>
     </div>
 
     <!-- Carrossel -->

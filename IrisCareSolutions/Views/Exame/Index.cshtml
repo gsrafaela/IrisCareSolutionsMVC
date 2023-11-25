@@ -1,40 +1,72 @@
 ﻿@model List<IrisCareSolutions.Models.Exame>
 
+@{
+    ViewData["Title"] = "Exames";
+}
+
 <h2>Exames</h2>
+
+<p>
+    <a asp-action="Create">Upload</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Pesquisar por ID">
+        <input type="submit" value="Pesquisar" class="btn btn-primary" />
+    </div>
+</form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Data</th>
-            <th>Resultado</th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ExameId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Data)
+            </th>
+            <th>
+                Arquivo de Resultado
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var exame in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@exame.ExameId</td>
-                <td>@exame.Nome</td>
-                <td>@exame.Descricao</td>
-                <td>@exame.Data.ToShortDateString()</td>
                 <td>
-                    @if (!string.IsNullOrEmpty(exame.ResultadoFileName))
+                    @Html.DisplayFor(modelItem => item.ExameId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ResultadoPath))
                     {
-                        <a asp-action="Download" asp-route-id="@exame.ExameId">@exame.ResultadoFileName</a>
+                        <a href="@item.ResultadoPath" target="_blank">Baixar Arquivo</a>
                     }
                     else
                     {
-                        <span>No file</span>
+                        <span>Nenhum arquivo enviado</span>
                     }
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@exame.ExameId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@exame.ExameId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@exame.ExameId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ExameId">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ExameId">Excluir</a>
                 </td>
             </tr>
         }
