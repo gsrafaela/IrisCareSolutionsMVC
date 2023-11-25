@@ -27,8 +27,10 @@
                                 Portal
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-action="cadastrar" asp-controller="tutelado">Novo Tutelado</a></li>
                                 <li><a class="dropdown-item" asp-action="index" asp-controller="tutelado">Tutelados</a></li>
+                                <li><a class="dropdown-item" asp-action="cadastrar" asp-controller="tutelado">Adicionar Novo Tutelado</a></li>
+                                <li><a class="dropdown-item" asp-action="Create" asp-controller="exame">Envio de Pedido Médico</a></li>
+                                <li><a class="dropdown-item" asp-action="index" asp-controller="exame">Pedido Médico</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -39,17 +41,6 @@
                                 <li><a class="dropdown-item" asp-action="cadastrar" asp-controller="lembrete">Novo Lembrete</a></li>
                                 <li><a class="dropdown-item" asp-action="index" asp-controller="lembrete">Lembretes</a></li>
                             </ul>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Pedido Médico
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-action="Create" asp-controller="exame">Novo Envio</a></li>
-                                <li><a class="dropdown-item" asp-action="index" asp-controller="exame">Pedido Médico</a></li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
