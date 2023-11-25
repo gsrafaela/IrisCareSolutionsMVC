@@ -9,12 +9,14 @@ Para utilizar o banco basta configurar e aplicar as migrações no banco de dado
 
 Abra o Console do Gerenciador de Pacotes (Package Manager Console) no Visual Studio. 
 <br>
+<br>
 Utilize o comando Add-Migration seguido pelo nome descritivo da sua alteração:
 
 ```bash
 Add-Migration "NomeDaMigracao"
 ```
 Substitua "NomeDaMigracao" por um nome que descreva claramente a natureza da sua migração.
+<br>
 <br>
 Após a criação da migração, aplique as alterações no banco de dados usando o comando Update-Database:
 
