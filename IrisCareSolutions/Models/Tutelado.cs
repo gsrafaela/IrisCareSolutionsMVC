@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IrisCareSolutions.Models
 {
-    [Table("Tbl_Tutelado")]
+    [Table("Tb_Tutelado")]
     public class Tutelado
     {
         [Column("Id"), HiddenInput]

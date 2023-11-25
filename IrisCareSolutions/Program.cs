@@ -3,20 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false);
-builder.Configuration.AddEnvironmentVariables();
-
-var connectionString = builder.Configuration.GetConnectionString("conexao");
-
-builder.Services.AddDbContext<ICSolutionsContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-});
-
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
 
+// Inject Db context inside of the services of our application
+builder.Services.AddDbContext<ICSolutionsContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("conexao")));
+
+
+
+var app = builder.Build();
 // Configurar o pipeline de solicitação HTTP.
 if (!app.Environment.IsDevelopment())
 {

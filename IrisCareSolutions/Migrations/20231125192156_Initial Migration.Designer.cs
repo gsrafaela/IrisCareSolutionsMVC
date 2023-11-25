@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IrisCareSolutions.Migrations
 {
     [DbContext(typeof(ICSolutionsContext))]
-    [Migration("20231125181519_Initial Migration")]
+    [Migration("20231125192156_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace IrisCareSolutions.Migrations
 
                     b.HasKey("TuteladoId");
 
-                    b.ToTable("Tbl_Tutelado");
+                    b.ToTable("Tb_Tutelado");
                 });
 
             modelBuilder.Entity("IrisCareSolutions.Models.TuteladoLembrete", b =>

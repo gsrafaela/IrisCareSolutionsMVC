@@ -2,7 +2,6 @@
 using IrisCareSolutions.Persistencia;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace IrisCareSolutions.Controllers
 {
@@ -36,18 +35,17 @@ namespace IrisCareSolutions.Controllers
         }
 
         [HttpPost]
-        public IActionResult Adicionar(TuteladoLembrete tuteladoLembrete)
+        public IActionResult adicionar(TuteladoLembrete tuteladoLembrete)
         {
             _context.TuteladosLembretes.Add(tuteladoLembrete);
             _context.SaveChanges();
-            TempData["msg"] = "Lembrete Associado";
+            TempData["msg"] = "Lembrete associado";
             return RedirectToAction("Lembretes", new { id = tuteladoLembrete.TuteladoId });
         }
 
         [HttpGet]
         public IActionResult Lembretes(int id)
         {
-          
             var lembretesAssociados = _context.TuteladosLembretes
                 .Where(p => p.TuteladoId == id)
                 .Select(m => m.Lembrete)
@@ -60,12 +58,13 @@ namespace IrisCareSolutions.Controllers
             var lembretesFiltrados = todosLembretes
                 .Where(m => !lembretesAssociados.Contains(m));
 
-            ViewBag.select = new SelectList(lembretesFiltrados, "LembreteoId", "Nome");
+            ViewBag.select = new SelectList(lembretesFiltrados, "LembreteId", "Nome");
 
             ViewBag.tutelado = _context.Tutelados.Find(id);
 
             return View();
         }
+
 
         [HttpPost]
         public IActionResult Excluir(int id)
@@ -87,14 +86,6 @@ namespace IrisCareSolutions.Controllers
         }
 
         [HttpGet]
-        public IActionResult Editar(int id)
-        {
-            // Remove the inclusion of the address
-            var tutelado = _context.Tutelados.First(p => p.TuteladoId == id);
-            return View(tutelado);
-        }
-
-        [HttpGet]
         public IActionResult Cadastrar()
         {
             return View();
@@ -103,8 +94,10 @@ namespace IrisCareSolutions.Controllers
         [HttpPost]
         public IActionResult Cadastrar(Tutelado tutelado)
         {
+            //Cadastrar no banco de dados
             _context.Tutelados.Add(tutelado);
             _context.SaveChanges();
+            //Mensagem de sucesso
             TempData["msg"] = "Tutelado cadastrado!";
             return RedirectToAction("cadastrar");
         }

@@ -144,7 +144,7 @@ namespace IrisCareSolutions.Migrations
 
                     b.HasKey("TuteladoId");
 
-                    b.ToTable("Tbl_Tutelado");
+                    b.ToTable("Tb_Tutelado");
                 });
 
             modelBuilder.Entity("IrisCareSolutions.Models.TuteladoLembrete", b =>
