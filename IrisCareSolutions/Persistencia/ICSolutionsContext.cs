@@ -6,7 +6,6 @@ namespace IrisCareSolutions.Persistencia
     public class ICSolutionsContext : DbContext
     {
         public DbSet<Tutelado> Tutelados { get; set; }
-        public DbSet<Responsavel> Responsavels { get; set; }
         public DbSet<Lembrete> Lembretes { get; set; }
         public DbSet<Exame> Exames { get; set; }
         public DbSet<TuteladoLembrete> TuteladosLembretes { get; set; }
@@ -43,18 +42,6 @@ namespace IrisCareSolutions.Persistencia
             modelBuilder.Entity<Exame>()
                 .Property(e => e.ResultadoFileName)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Responsavel>()
-              .Property(e => e.Nome)
-              .IsUnicode(false);
-
-            modelBuilder.Entity<Responsavel>()
-              .Property(e => e.Cpf)
-              .IsUnicode(false);
-
-            modelBuilder.Entity<Responsavel>()
-              .Property(e => e.Telefone)
-              .IsUnicode(false);
 
             base.OnModelCreating(modelBuilder);
 
