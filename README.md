@@ -73,3 +73,14 @@ Update-Database
     <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original-wordmark.svg" />
     <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" />
     <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" />
+
+# <span style="color: #63C71F;">Considerações Finais</span>
+
+        O desenvolvimento do Iriscare é um projeto realizado como parte da prova semestral da faculdade FIAP, com o tema "“Inovação e Tecnologia Moldandoo Futuro da Saúde: Prevenção,Automação e Precisão".
+
+        A equipe se empenhou para criar uma solução eficiente e inovadora, que visa promover o combate ao retinoblastoma.
+
+O projeto Iriscare está disponível na íntegra, incluindo todos os códigos-fonte e entregas, na organização do GitHub: 
+https://github.com/IrisCareSoluctions.
+
+<br/>
