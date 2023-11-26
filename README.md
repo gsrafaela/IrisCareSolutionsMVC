@@ -11,8 +11,7 @@
 [Assista ao video do back-end integrado rodando](https://www.youtube.com/watch?v=kX0do_P3T9E)
 <br>
 <br>
-[WebApp da versão Desktop sem integração do Banco de Dados](iriscaresolutions.azurewebsites.net)
-
+[WebApp da versão Desktop sem integração do Banco de Dados](https://iriscaresolutions.azurewebsites.net/)
 # Instruções para Migrações de Banco de Dados
 
 Para utilizar o banco basta configurar e aplicar as migrações no banco de dados deste projeto, siga os passos abaixo:
