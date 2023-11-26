@@ -3,6 +3,18 @@
     Versão simplificada para desktop do aplicativo mobile para prevenção e controle do Retinoblastoma por meio da análise de imagem, 
     controle periodico e encaminhamento para Secretaria Municipal e GRAACC.
 
+    <img align="center" src="https://github.com/IrisCareSoluctions/HybridMobile/blob/main/assets/evidencia4.png" />
+
+
+----
+
+# <span style="color: #63C71F;">Demonstração WebApp da Azure </span>
+
+[Assista ao video do back-end integrado rodando](https://www.youtube.com/watch?v=kX0do_P3T9E)
+<br>
+[WebApp da versão Desktop sem integração do Banco de Dados](iriscaresolutions.azurewebsites.net)
+---
+
 # Instruções para Migrações de Banco de Dados
 
 Para utilizar o banco basta configurar e aplicar as migrações no banco de dados deste projeto, siga os passos abaixo:
