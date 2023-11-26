@@ -3,17 +3,15 @@
     Versão simplificada para desktop do aplicativo mobile para prevenção e controle do Retinoblastoma por meio da análise de imagem, 
     controle periodico e encaminhamento para Secretaria Municipal e GRAACC.
 
-    <img align="center" src="https://github.com/IrisCareSoluctions/HybridMobile/blob/main/assets/evidencia4.png" />
 
-
-----
+<img align="center" src="https://github.com/IrisCareSoluctions/HybridMobile/blob/main/assets/evidencia4.png" />
 
 # <span style="color: #63C71F;">Demonstração WebApp da Azure </span>
 
 [Assista ao video do back-end integrado rodando](https://www.youtube.com/watch?v=kX0do_P3T9E)
 <br>
+<br>
 [WebApp da versão Desktop sem integração do Banco de Dados](iriscaresolutions.azurewebsites.net)
----
 
 # Instruções para Migrações de Banco de Dados
 
@@ -67,3 +65,11 @@ Update-Database
         <img align="center" height="100" width="100" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/81593244?v=4" />
     </a>
 </div>
+
+## Tecnologias Utilizadas
+          
+<div align="center" > 
+    <img  align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" />    
+    <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original-wordmark.svg" />
+    <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" />
+    <img align="center" height="50" width="80" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" />
