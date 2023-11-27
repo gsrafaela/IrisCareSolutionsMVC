@@ -8,10 +8,18 @@
 
 # <span style="color: #63C71F;">Demonstração WebApp da Azure </span>
 
-[Assista ao video do back-end integrado rodando](https://www.youtube.com/watch?v=kX0do_P3T9E)
+[Assista ao video do back-end integrado rodando](https://youtu.be/YqC0E4ZScxM)
+<br>
+<br>
+[link deploy](https://api-iriscare.azurewebsites.net/swagger-ui/index.html)
 <br>
 <br>
 [WebApp da versão Desktop sem integração do Banco de Dados](https://iriscaresolutions.azurewebsites.net/)
+
+# <span style="color: #63C71F;">Vídeos</span>
+
+[Assista ao video Pitch](https://youtu.be/Xke6Jv6ONQ0)
+
 # Instruções para Migrações de Banco de Dados
 
 Para utilizar o banco basta configurar e aplicar as migrações no banco de dados deste projeto, siga os passos abaixo:
